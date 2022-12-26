@@ -99,7 +99,7 @@ $categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORD
         <?php endif ?>
 
 
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-header">
                 <h4>Gestion des catégories</h4>
             </div>
@@ -148,8 +148,8 @@ $categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORD
 
                 <a href="categories_trash.php" class="btn btn-danger mb-3">Trash</a>
                 <div class="table-responsive">
-                    <table class="table table-sm table-bordered table-hover">
-                        <thead class="table-info">
+                    <table class="table table-bordered table table-stripeda table-sm table-hover">
+                        <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>Nom</th>
@@ -160,7 +160,7 @@ $categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORD
                         <tbody>
                             <?php foreach ($categories as $key => $c) : ?>
 
-                                <tr>
+                                <tr class="<?= $c['id'] == 4 ? 'table-warning' : '' ?>">
                                     <td>
                                         <?= $c['id'] ?>
                                     </td>

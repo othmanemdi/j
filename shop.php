@@ -1,5 +1,11 @@
 <?php
+
+require "Helpers/functions.php";
+require "Database/pdo.php";
 $page = "shop";
+
+$categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORDER BY id DESC")->fetchAll();
+
 ?>
 
 <!doctype html>
@@ -24,6 +30,93 @@ $page = "shop";
     </header>
     <main class="container">
         <h3 class="my-3">Shop Page</h3>
+
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="position-sticky">
+                    <h5>Catégories</h5>
+
+                    <ul class="list-group list-group-flush mb-3">
+                        <?php foreach ($categories as $key => $c) : ?>
+
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckbox">
+                                <label class="form-check-label" for="firstCheckbox">
+                                    <?= ucwords($c['nom']) ?>
+                                </label>
+                            </li>
+
+                        <?php endforeach ?>
+
+                    </ul>
+
+
+                    <h5>Couleurs</h5>
+
+                    <ul class="list-group list-group-flush mb-3">
+                        <?php foreach ($categories as $key => $c) : ?>
+
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckbox">
+                                <label class="form-check-label" for="firstCheckbox">
+                                    <?= ucwords($c['nom']) ?>
+                                </label>
+                            </li>
+
+                        <?php endforeach ?>
+
+                    </ul>
+
+                </div>
+                <!-- position-sticky -->
+            </div>
+            <!-- col -->
+
+            <div class="col-md-9">
+
+
+                <div class="row">
+
+                    <?php for ($i = 1; $i <= 12; $i++) : ?>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="card mb-3">
+                                <img src="images/products/product_img<?= $i ?>.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Product <?= $i ?></h5>
+                                    <h5>
+                                        250,00 DH
+                                        <del class="text-danger fw-bold">
+                                            300,00 DH
+                                        </del>
+                                    </h5>
+                                    <a href="#" class="btn btn-dark">Add to cart</a>
+                                </div>
+                            </div>
+                            <!-- card -->
+                        </div>
+                        <!-- col -->
+                    <?php endfor ?>
+
+
+
+
+                </div>
+                <!-- row -->
+
+
+            </div>
+            <!-- col -->
+        </div>
+        <!-- row -->
+
+
+
+
+
+
+
+
     </main>
     <footer>
         <!-- place footer here -->
