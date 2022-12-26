@@ -1,0 +1,32 @@
+{
+    "1": {
+        "reference": "rf-0001",
+        "designation": "iphone 14 pro max blue",
+        "qt": 2,
+        "prix_u": 18000
+    },
+    "2": {
+        "reference": "rf-0002",
+        "designation": "iphone 13 pro max gold",
+        "qt": 1,
+        "prix_u": 13000
+    },
+    "3": {
+        "reference": "rf-0003",
+        "designation": "imac orange",
+        "qt": 1,
+        "prix_u": 24000
+    },
+    "4": {
+        "reference": "rf-0004",
+        "designation": "imac Green",
+        "qt": 2,
+        "prix_u": 24000
+    },
+    "5": {
+        "reference": "rf-0005",
+        "designation": "imac Red",
+        "qt": 3,
+        "prix_u": 24000
+    }
+}
