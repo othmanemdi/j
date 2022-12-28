@@ -81,7 +81,9 @@ $categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORD
                     <?php for ($i = 1; $i <= 12; $i++) : ?>
                         <div class="col-md-4 col-sm-6">
                             <div class="card mb-3">
-                                <img src="images/products/product_img<?= $i ?>.jpg" class="card-img-top" alt="...">
+                                <a href="product_detail.php">
+                                    <img src="images/products/product_img<?= $i ?>.jpg" class="card-img-top" alt="...">
+                                </a>
                                 <div class="card-body">
                                     <h5 class="card-title">Product <?= $i ?></h5>
                                     <h5>
