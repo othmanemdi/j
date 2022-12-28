@@ -1,7 +1,7 @@
 <?php
 require "Helpers/functions.php";
 require "Database/pdo.php";
-
+$page = 'categories';
 
 if (isset($_POST['add_categorie'])) {
     $nom = $_POST['nom'];

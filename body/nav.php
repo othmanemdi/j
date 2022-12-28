@@ -9,21 +9,26 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link <?= $page == 'home' ? 'active' : '' ?>
+                    <a class="nav-link <?= $page == 'home' ? 'active text-info fw-bold' : '' ?>
                     " href="index.php">Home</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link <?= $page == 'shop' ? 'active' : '' ?>" href="shop.php">Shop</a>
+                    <a class="nav-link <?= $page == 'shop' ? 'active text-info fw-bold' : '' ?>" href="shop.php">Shop</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link <?= $page == 'cart' ? 'active' : '' ?>" href="cart.php">Cart</a>
+                    <a class="nav-link <?= $page == 'cart' ? 'active text-info fw-bold' : '' ?>" href="cart.php">Cart</a>
                 </li>
 
 
                 <li class="nav-item">
-                    <a class="nav-link <?= $page == 'categories' ? 'active' : '' ?>" href="categories.php">Categories</a>
+                    <a class="nav-link <?= $page == 'categories' ? 'active text-info fw-bold' : '' ?>" href="categories.php">Categories</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link <?= $page == 'couleurs' ? 'active text-info fw-bold' : '' ?>" href="couleurs.php">Colors</a>
                 </li>
             </ul>
         </div>
