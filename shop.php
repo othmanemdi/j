@@ -4,7 +4,15 @@ require "Helpers/functions.php";
 require "Database/pdo.php";
 $page = "shop";
 
+
+$produits = $pdo->query("SELECT * FROM produits_view
+WHERE deleted_at IS NULL
+ORDER BY id DESC
+")->fetchAll();
+
+
 $categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORDER BY id DESC")->fetchAll();
+$couleurs = $pdo->query("SELECT * FROM couleurs WHERE deleted_at IS NULL ORDER BY id DESC")->fetchAll();
 
 ?>
 
@@ -16,7 +24,7 @@ $categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORD
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
@@ -31,7 +39,13 @@ $categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORD
     <main class="container">
         <h3 class="my-3">Shop Page</h3>
 
-
+        <?php if (isset($_SESSION['message']) and isset($_SESSION['color'])) : ?>
+            <p class="alert alert-<?= $_SESSION['color'] ?>">
+                <?= $_SESSION['message'] ?>
+            </p>
+            <?php unset($_SESSION['message']) ?>
+            <?php unset($_SESSION['color']) ?>
+        <?php endif ?>
         <div class="row">
             <div class="col-md-3">
                 <div class="position-sticky">
@@ -55,7 +69,7 @@ $categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORD
                     <h5>Couleurs</h5>
 
                     <ul class="list-group list-group-flush mb-3">
-                        <?php foreach ($categories as $key => $c) : ?>
+                        <?php foreach ($couleurs as $key => $c) : ?>
 
                             <li class="list-group-item">
                                 <input class="form-check-input me-1" type="checkbox" value="" id="firstCheckbox">
@@ -78,28 +92,34 @@ $categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORD
 
                 <div class="row">
 
-                    <?php for ($i = 1; $i <= 12; $i++) : ?>
+                    <?php foreach ($produits as $key => $p) : ?>
                         <div class="col-md-4 col-sm-6">
                             <div class="card mb-3">
-                                <a href="product_detail.php">
-                                    <img src="images/products/product_img<?= $i ?>.jpg" class="card-img-top" alt="...">
+                                <a href="product_detail.php?id=<?= $p['id'] ?>">
+                                    <img src="images/<?= $p['image'] ?>" class="card-img-top" alt="...">
                                 </a>
                                 <div class="card-body">
-                                    <h5 class="card-title">Product <?= $i ?></h5>
+                                    <h5 class="card-title">
+                                        <?= ucwords($p['designation']) ?>
+                                        <?= ucwords($p['couleur_nom']) ?>
+                                    </h5>
                                     <h5>
-                                        250,00 DH
+                                        <?= $p['prix'] ?> DH
                                         <del class="text-danger fw-bold">
-                                            300,00 DH
+                                            <?= $p['ancien_prix'] ?> DH
                                         </del>
                                     </h5>
-                                    <a href="#" class="btn btn-dark">Add to cart</a>
+                                    <a href="cart.php?id=<?= $p['id'] ?>" class="btn btn-dark fw-bold">
+
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                        Add To Cart
+                                    </a>
                                 </div>
                             </div>
                             <!-- card -->
                         </div>
                         <!-- col -->
-                    <?php endfor ?>
-
+                    <?php endforeach ?>
 
 
 

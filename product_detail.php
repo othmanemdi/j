@@ -4,6 +4,70 @@ require "Helpers/functions.php";
 require "Database/pdo.php";
 $page = "shop";
 
+if (!isset($_GET['id'])) {
+    $_SESSION['message'] = "Error id";
+    $_SESSION['color'] = "danger";
+    header('Location: shop.php');
+    exit();
+}
+$id = (int)$_GET['id'];
+
+if ($id <= 0) {
+    $_SESSION['message'] = "Id $id incorecte";
+    $_SESSION['color'] = "danger";
+    header('Location: shop.php');
+    exit();
+}
+
+
+$p = $pdo->query("SELECT * FROM produits_view
+WHERE id = $id AND deleted_at IS NULL LIMIT 1
+")->fetch();
+
+if (!$p) {
+    $_SESSION['message'] = "Id $id introuvable";
+    $_SESSION['color'] = "danger";
+    header('Location: shop.php');
+    exit();
+}
+
+
+
+if (isset($_POST['add_to_cart'])) {
+
+    $ip_adresse = get_client_ip();
+
+    $cart_info = $pdo->query("SELECT id FROM carts WHERE ip_adresse =  '$ip_adresse' LIMIT 1")->fetch();
+
+    if (!$cart_info) {
+        // echo 'insert';
+        $pdo->query("INSERT INTO carts SET ip_adresse = '$ip_adresse'");
+        $cart_id = (int)$pdo->lastInsertId();
+    } else {
+        // echo 'get';
+        $cart_id = (int)$cart_info['id'];
+    }
+
+    $cart_produit = $pdo->query("SELECT id FROM cart_produit WHERE cart_id = $cart_id 
+     AND produit_id = $id  LIMIT 1")->fetch();
+
+    if (!$cart_produit) {
+        echo 'insert';
+        $pdo->query("INSERT INTO cart_produit SET cart_id = $cart_id,  produit_id = $id");
+        $_SESSION['message'] = "Bien ajouter";
+        $_SESSION['color'] = "success";
+    } else {
+        echo 'update';
+        $pdo->query("UPDATE cart_produit SET qt = QT + 1 WHERE cart_id = $cart_id 
+        AND produit_id = $id");
+        $_SESSION['message'] = "Bien modifier";
+        $_SESSION['color'] = "info";
+    }
+
+    header("Location: cart.php");
+    exit();
+}
+
 $categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORDER BY id DESC")->fetchAll();
 
 ?>
@@ -34,11 +98,14 @@ $categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORD
 
         <div class="row">
             <div class="col-md-6">
-                <img src="images/products/product_img2.jpg" class="img-fluid" alt="">
+                <img src="images/<?= $p['image'] ?>" class="img-fluid" alt="">
             </div>
 
             <div class="col-md-6">
-                <h4>Red Shirt</h4>
+                <h4>
+                    <?= ucwords($p['designation']) ?>
+                    <?= ucwords($p['couleur_nom']) ?>
+                </h4>
 
                 <div>
                     <span class="text-warning">
@@ -86,18 +153,18 @@ $categories = $pdo->query("SELECT * FROM categories WHERE deleted_at IS NULL ORD
 
 
                 <h3 class="my-3 fw-bold">
-                    250,00 DH
+                    <?= $p['prix'] ?> DH
                     <del class="text-danger fw-bold">
-                        300,00 DH
+                        <?= $p['ancien_prix'] ?> DH
                     </del>
                 </h3>
 
-                <a href="cart.php" class="btn btn-dark fw-bold">
-
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    Add To Cart
-                </a>
-
+                <form method="post">
+                    <button type="submit" name="add_to_cart" class="btn btn-dark fw-bold">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Add To Cart
+                    </button>
+                </form>
             </div>
         </div>
 
