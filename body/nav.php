@@ -34,6 +34,10 @@
                 <li class="nav-item">
                     <a class="nav-link <?= $page == 'products' ? 'active text-info fw-bold' : '' ?>" href="products.php">Products</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link <?= $page == 'commandes' ? 'active text-info fw-bold' : '' ?>" href="commandes.php">Commandes</a>
+                </li>
             </ul>
         </div>
     </div>

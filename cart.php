@@ -6,10 +6,17 @@ $page = "cart";
 $ip_adresse = get_client_ip();
 
 
-$cart_id = $pdo->query("SELECT id FROM carts WHERE ip_adresse = '$ip_adresse' limit 1")->fetch()['id'];
+$cart_info = $pdo->query("SELECT id FROM carts WHERE ip_adresse = '$ip_adresse' limit 1")->fetch();
+
+if (!$cart_info) {
+    $_SESSION['message'] = "Panier vide";
+    $_SESSION['color'] = "danger";
+    header('Location: shop.php');
+    exit;
+}
 
 
-
+$cart_id = $cart_info['id'];
 
 $cart_produit = $pdo->query("SELECT pv.*,
 cp.qt AS cart_quantite
@@ -96,7 +103,7 @@ WHERE cp.cart_id = $cart_id")->fetch()['prix_total_cart'];
                                         <?= ucwords($p['designation']) ?>
                                         <?= ucwords($p['couleur_nom']) ?>
                                     </td>
-                                    <td> <?= $p['prix'] ?> DH</td>
+                                    <td> <?= _number_format($p['prix']) ?> DH</td>
                                     <td>
                                         <!-- <input type="number" class="form-control w-25" value="1"> -->
                                         <div class="input-group w-50">
@@ -110,7 +117,7 @@ WHERE cp.cart_id = $cart_id")->fetch()['prix_total_cart'];
                                             </button>
                                         </div>
                                     </td>
-                                    <td><?= $total_prix ?> DH</td>
+                                    <td><?= _number_format($total_prix) ?> DH</td>
                                     <td>
                                         <i class="fa-solid fa-trash-can text-danger fw-bold"></i>
                                     </td>
@@ -144,7 +151,7 @@ WHERE cp.cart_id = $cart_id")->fetch()['prix_total_cart'];
                         <li class="list-group-item d-flex justify-content-between align-items-center fw-bold bg-transparent">
                             Order Summary
                             <span class="badge bg-dark rounded-pill">
-                                <?= $prix_total_cart ?> DH
+                                <?= _number_format($prix_total_cart) ?> DH
                             </span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center fw-bold bg-transparent">
@@ -156,12 +163,12 @@ WHERE cp.cart_id = $cart_id")->fetch()['prix_total_cart'];
                         <li class="list-group-item d-flex justify-content-between align-items-center fw-bold bg-transparent">
                             Total To Pay
                             <span class="badge bg-dark rounded-pill">
-                                <?= $prix_total_cart - 200 ?> DH
+                                <?= _number_format($prix_total_cart - 200) ?> DH
                             </span>
                         </li>
                     </ul>
 
-                    <a href="proced_checkout.html" class="btn btn-dark fw-bold mt-3 rounded">
+                    <a href="proceed_checkout.php" class="btn btn-dark fw-bold mt-3 rounded">
                         <i class="fa-solid fa-money-check-dollar"></i>
                         Proced To Chekout
                     </a>

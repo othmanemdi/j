@@ -158,3 +158,16 @@ function get_client_ip()
         $ipaddress = 'UNKNOWN';
     return $ipaddress;
 }
+
+function _number_format($num)
+{
+    return number_format($num, 2, ',', ' ');
+}
+
+
+if (!function_exists('_date_format')) {
+    function _date_format($date)
+    {
+        return date("d/m/Y H:i:s", strtotime($date));
+    }
+}
