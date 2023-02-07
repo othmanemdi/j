@@ -171,3 +171,18 @@ if (!function_exists('_date_format')) {
         return date("d/m/Y H:i:s", strtotime($date));
     }
 }
+
+
+function e($string)
+{
+    return htmlspecialchars(trim($string));
+}
+
+
+function is_loged(): bool
+{
+    if (isset($_SESSION['auth'])) {
+        return true;
+    }
+    return false;
+}

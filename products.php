@@ -69,14 +69,16 @@ if (isset($_POST['ajouter_produit'])) {
 
     if (empty($errors)) {
         move_uploaded_file($image_tmp_name, $target_file);
-        $_SESSION['flash']['info'] = 'Bien ajouter';
+        $_SESSION['message'] = 'Bien ajouter';
+        $_SESSION['color'] = 'info';
     } else {
         $error_message = '';
         foreach ($errors as $key => $e) {
             $error_message  .= $e;
             $error_message  .= "<br>";
         }
-        $_SESSION['flash']['danger'] = $error_message;
+        $_SESSION['message'] = $error_message;
+        $_SESSION['color'] = 'danger';
     }
 
 
@@ -194,14 +196,16 @@ if (isset($_POST['modifier_produit'])) {
         // exit();
         if (empty($errors)) {
             move_uploaded_file($image_tmp_name, $target_file);
-            $_SESSION['flash']['info'] = 'Bien modifier';
+            $_SESSION['message'] = 'Bien modifier';
+            $_SESSION['color'] = 'info';
         } else {
             $error_message = '';
             foreach ($errors as $key => $e) {
                 $error_message  .= $e;
                 $error_message  .= "<br>";
             }
-            $_SESSION['flash']['danger'] = $error_message;
+            $_SESSION['message'] = $error_message;
+            $_SESSION['color'] = 'danger';
         }
     }
 

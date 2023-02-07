@@ -5,7 +5,8 @@ $page = 'couleurs';
 
 
 if (isset($_POST['add_couleur'])) {
-    $nom = $_POST['nom'];
+    $nom = htmlspecialchars(trim($_POST['nom']));
+
     $couleur = $pdo->query("INSERT INTO couleurs SET nom = '$nom'");
 
     if ($couleur) {
@@ -62,12 +63,6 @@ if (isset($_POST['delete_couleur'])) {
     header("Location: couleurs.php");
     exit();
 }
-
-
-
-
-
-
 
 if (isset($_POST['active_couleur'])) {
 
